@@ -1,0 +1,28 @@
+\section*{Box title}
+The box title can be entered using the common \verb|\section*|
+command.
+You can add figures with the command:
+\verb|\framedfig{figfile}{Caption text}|.
+\begin{center}
+\begin{minipage}{0.48\textwidth}
+\framedfig{GRACE_OBSSYS}{GRACE observation system: Surface loading
+  variation and its associated elastic response cause detectable orbit
+  variations due to potential perturbations.}
+\end{minipage}
+\begin{minipage}{0.48\textwidth}
+\framedfig{GPS_OBSYS}{GPS observation system: The response of the
+  solid Earth as measured by GPS receivers, to surface loading is mainly elastic on weekly to yearly
+  timescales.}\label{fig:ex}
+\end{minipage}
+\end{center}
+\vspace{-1.2cm}
+\begin{itemize}
+\fancyitem Normal bullet \verb|\fancyitem| 
+\positem Positive bullet \verb|\positem| 
+\negitem negative bullet \verb|\negitem| 
+\end{itemize}
+You can use the \verb|\label| and \verb|\ref| commands to refer to figure
+numbers like Fig. \ref{fig:ex}
+
+
+

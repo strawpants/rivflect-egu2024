@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Small script to plot the earth land surface in perspective
+
+
+
+mossgreen=36/128/15
+iggblue=7/84/154
+
+backg=204/204/204
+OUTFILE=GLOBEperspective_hires_blue
+#gmtset FRAME_PEN = 0 BASEMAP_FRAME_RGB $iggblue PAGE_COLOR $backg
+gmtset MAP_FRAME_PEN = 0 MAP_DEFAULT_PEN = $iggblue
+#−JGlon0/lat0/altitude/azimuth/tilt/twist/Width/Height/width
+
+pscoast -JG10/20/40000/23.5/0/0/20/20/20 -Rg -Df -G$iggblue -W$iggblue > $OUTFILE.eps
+# pscoast -JG10/20/40000/23.5/0/0/20/20/20 -Rg -B -Df -G$mossgreen > $OUTFILE
+
+# convert to raster image
+ps2raster -Tg -E720 -A -P $OUTFILE.eps
+
+# convert whoite backrgoudn to transparent and blur slightly
+
+convert -transparent white -blur 10x5 $OUTFILE.png tmp.png

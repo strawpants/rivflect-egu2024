@@ -1,0 +1,8 @@
+*.log
+*.aux
+*.bbl
+*.out
+*.blg
+a0header.ps
+figures/posterbackground_hires.pdf
+IGG_posterpreamble.tex

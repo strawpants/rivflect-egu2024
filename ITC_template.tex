@@ -1,0 +1,322 @@
+%%created by R. Rietbroek 11 March 2011
+%%A0 Poster template in  ITC style
+%% Updated Sept 2017 to new corporate design of Uni Bonn
+%% This is essentially a collection of stolen artwork/ideas :) Credits to
+%%Indridi Einarsson, Enrico Kurtenbach and the PGF/tikz wizard till Tantau
+%% Updated April 2023, turn this into an ITC latex poster
+\input{ITC_posterpreamble}
+
+%%%%%Set if to check whether this is landscape or portrait format
+\makeatletter
+\newif\iflandscape
+\@ifclasswith{a0poster}{landscape}{\landscapetrue}{\landscapefalse}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% required packages %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ifxetex}
+
+\usepackage{url}
+
+
+\ifxetex
+
+\usepackage[xetex,colorlinks=true,linkcolor=itcoffblack,citecolor=itcoffblack,urlcolor=itcoffblack]{hyperref}
+%\usepackage{xltxtra}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% Font settings %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[]{fontspec}
+ % \usepackage{xunicode}
+
+  \setmainfont{Arial}
+%  \setmonofont{Exo-Regular}
+  %%NOTE the setting below affects \sffamily used for headers etc.
+  \setsansfont{Noto Sans}
+\else
+
+   \usepackage[pdftex,colorlinks=true,linkcolor=itcoffblack,citecolor=itcoffblack,urlcolor=itcoffblack]{hyperref}
+   \usepackage[utf8]{inputenc}
+   \usepackage[pdftex]{graphicx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% Font settings %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   \usepackage{carlito}
+   %use sans serif as default font family
+   \renewcommand*\familydefault{\sfdefault}
+\fi
+                
+                
+%\usepackage[xetex,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+\usepackage{sectsty}
+\usepackage[absolute,overlay]{textpos}
+%\usepackage[absolute,overlay,showboxes]{textpos} % the 'showboxes' options can be handy for debugging
+\usepackage{ifthen}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% add directory to graphics path
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{figures/}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Color definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{itcblue}{HTML}{293f8b}
+\definecolor{itcoffblack}{HTML}{4c4c4c}
+\definecolor{itcgreen}{HTML}{308b7d}
+
+\definecolor{uniblue}{rgb}{0.027451,   0.321569,   0.603922}
+\definecolor{unigelb}{rgb}{0.98824,   0.72941,   0.00000}
+\definecolor{unigrau}{rgb}{0.80672,   0.80672,   0.74510}
+
+%\definecolor{gfzblue}{rgb}{0., 0.4, 0.65}
+%\definecolor{unigrau}{rgb}{0.8, 0.8, 0.8}
+%\definecolor{sunsetorange}{rgb}{1, .3, .11}
+\definecolor{mossgreen}{rgb}{0.14,0.5,0.06}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% sectsty settings (section header appearance)%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\allsectionsfont{\centering\sffamily\textcolor{itcgreen}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Define grid for textpos %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\TPGrid{16}{16} % so page is gridded up in 16 blocks wide and 16 blocks high
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% General document info/values %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%set the title of the poster here:
+\newcommand{\ititle}{The oh so catchy title of the poster}
+%Your name
+\newcommand{\iauthor}{Roelof Rietbroek}
+%your email
+\newcommand{\iemail}{r.rietbroek@utwente.nl}
+%your twitter account
+\newcommand{\itweet}{@r\_rietje}
+\newcommand{\imast}{@roelof@fediscience.org}
+% your blog/homepage
+\newcommand{\iblog}{https://people.utwente.nl/r.rietbroek}
+
+%set the name of your background image here
+\newcommand{\backgroundimage}{posterbackground_hires} %comment this if you want a plain background
+
+%some goodies for in the meta data of the pdf document
+  \hypersetup{
+    pdftitle={\ititle},
+    pdfauthor={\iauthor},
+    pdfsubject={Poster, Conference ... },
+    pdfkeywords={Surface loading, geocenter motion,GRACE, gravimetry, GPS networks, Ocean modelling, joint inversion}
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% Poster Macros %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% new command to make a framed textblock at a page position (position is aligned with the center-top of the box)
+\newcommand{\framedbox}[3]{
+ \begin{textblock}{#1}[0.5,0.](#2)
+   \noindent\begin{tikzpicture}[ultra thick,inner sep=1ex]
+      \node at ( 0,0)[rectangle,draw=itcgreen, line width=4pt,fill=unigrau,fill
+        opacity=0.5,text opacity=1, minimum width=#1\TPHorizModule,rounded corners=2ex]{
+	  \begin{minipage}[c]{0.98\textwidth}\color{itcoffblack}
+          \large#3
+      \end{minipage}};
+    \end{tikzpicture}
+ \end{textblock}
+}
+
+
+
+%%set up the figure counter
+\setcounter{figure}{0}
+
+%%%new picture environment
+\newcommand{\framedfig}[3][width=\textwidth,clip]{
+  \refstepcounter{figure}
+    \begin{tikzpicture}[inner sep=4.\pgflinewidth]\renewcommand{\baselinestretch}{0.6}
+      \node at ( 0.,0.)[drop shadow,rectangle,draw=itcblue,fill=white,minimum width=\textwidth,rounded corners=0.ex, inner sep=2mm]{
+ 	\begin{minipage}{\textwidth}
+	  \includegraphics[#1]{#2}
+	  \textcolor{itcblue}{\small Fig. \arabic{figure} #3}
+      \end{minipage}};
+    \end{tikzpicture}
+\renewcommand{\baselinestretch}{1.0}
+}
+
+
+
+
+%%%%%%%Customized fancy bullets%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fancyitem}{\item[{ \tikz\shade [ball color=itcblue]
+      (0.,0.) [circular drop shadow] circle (0.3\baselineskip);}]}
+\newcommand{\positem}{\item[{ \tikz\shade [ball color=mossgreen]
+      (0.,0.) [circular drop shadow] circle (0.3\baselineskip);}]}
+\newcommand{\negitem}{\item[{\tikz\shade [ball color=red] (0.,0.)
+      [circular drop shadow] circle (0.3\baselineskip);}]}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Begin of Document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%START BACKGROUND layer color/image/style or whatever you want
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%This tikz picture layer fills the complete page and is shown behind the textpos boxes
+\begin{tikzpicture}[thick,remember picture, overlay]
+%define a few handy coordinates on the page
+\coordinate[yshift=0.\pgflinewidth,xshift=0.\pgflinewidth] (NW) at
+(current page.north west);
+\coordinate[yshift=0.\pgflinewidth,xshift=0.\pgflinewidth] (SW) at
+(current page.south west);
+\coordinate[yshift=0.\pgflinewidth,xshift=0.\pgflinewidth] (NE) at
+(current page.north east);
+%ITC logo coordinate
+\coordinate[yshift=-0.75cm,xshift=0.75cm] (ITCCOOR) at (NW); %ITC logo 
+%uni logo coordinate
+\coordinate[yshift=-0.75cm,xshift=-0.75cm] (UNICOOR) at (NE); 
+% Coordinate of the top 'funny' rectangle
+\coordinate[yshift=-11cm,xshift=-2cm] (RECTSTART) at (NE);
+
+%%%%insert an image or plain color as background
+\ifthenelse{\isundefined{\backgroundimage}}
+{ %THEN %draw A0 outline and fill rectangle with background color
+  \node  at (NW) [inner sep=0,rectangle,draw=itcblue,minimum
+    width=\paperwidth-\pgflinewidth,minimum
+    height=\paperheight-\pgflinewidth,anchor=north
+    west,fill=unigrau]{};
+}%ELSE  %insert background figure and draw A0 outline
+{ 
+\node  at (NW) [inner sep=0,minimum  width=\paperwidth,minimum
+  height=\paperheight,anchor=north
+  west]{\includegraphics[height=\paperheight,clip]{\backgroundimage}};
+%draw rectangle for A0 boundary
+\node  at (NW) [inner sep=0,rectangle,draw=itcblue,minimum
+  width=\paperwidth-\pgflinewidth,minimum
+  height=\paperheight-\pgflinewidth,anchor=north
+  west]{};
+}
+
+%Insert top bar
+%\node  at (NW) [inner sep=0,rectangle,fill=itcblue,minimum
+  %width=\paperwidth-\pgflinewidth,minimum
+  %height=\topbarheight,anchor=north west]{};
+
+%aInsert bottom bar
+\node  at (SW) [inner sep=0,rectangle,fill=itcgreen,minimum
+  width=\paperwidth-\pgflinewidth,minimum
+  height=\bottombarheight,anchor=south west]{};
+
+%insert ITC logo
+\node at (ITCCOOR) [inner sep=0,rectangle,anchor=north
+  west]{\includegraphics[height=7cm]{itclogosingle.pdf}};
+
+%insert Uni logo
+\node at (UNICOOR) [inner sep=0,rectangle,anchor=north east]{\includegraphics[height=5cm]{UTwente_black.pdf}};
+
+\end{tikzpicture}
+
+%%%%%%%%%%END BACKGROUND layer%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%From now on all text and figures need to be within textblocks!!!!!!!!!!
+%%%%%%%%%%%Else they will not show (they will actually be behind the first tikz picture defined above%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% TITLE BOX %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{textblock}{\titlewidth}[0.5,0.](8,0.1)
+\begin{center}
+{
+    {\Huge \color{itcoffblack} \sffamily \textbf{\ititle}\\[0.7cm]}
+
+    {\color{itcoffblack} \huge \sffamily
+R. Rietbroek$^{\footnotesize\textbf{1}}$,
+    A. notherauthor$^{\footnotesize\textbf{2}}$}\\[0.5cm]}
+
+    {\color{itcoffblack} \large \sffamily \textbf{1) ITC Faculty of Geo-information Science and Earth Observation, University of Twente\\
+    2) Technical Universtity .., blah die Blah\\}}
+
+\end{center}
+\end{textblock}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% Affiliation box %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{textblock}{10.5}[0.5,0.](8,0.9)
+%\begin{center}
+%{\color{unigrau} \large \sffamily \textbf{1) Institute of Geodesy and
+  %Geoinformation, Bonn University 
+%2) Technische Universit\"at , blah die Blah\\}}
+%\end{center}
+%\end{textblock}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Contact details %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{textblock}{2.8}[0.,1.](0.05,15.9)
+{\large \sffamily \color{white}
+  \noindent \textbf{Contact: \iauthor}\\
+%\includegraphics[width=8mm,clip]{Internet_Icon_white} \iblog\\
+\includegraphics[width=9mm,clip]{mastodon-logo-white.pdf} \imast\\ 
+\includegraphics[width=9mm,clip]{Twitter_logo_white.pdf} \itweet\\ 
+\includegraphics[width=9mm,clip]{e_mail} \iemail
+}\end{textblock}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% CONTENT %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%The framedbox command anchors the box on its centerline/top.
+% The first argument is the width of the box (in 1/16 of the page width) and the second argument is the
+% position on the page (of the anchor point). 0,0 means top left while 16,16
+% means bottom right of the page. The height of the box grows
+% automatically with its content.
+
+\framedbox{4.8}{3.,1.8}{\input{ITC_examplebox}}
+\framedbox{4.8}{13.,13}{\input{ITC_examplerefs}}
+\framedbox{4.8}{8,10}{\input{ITC_compile}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% LOWER INFO BAR ( for logos, acknowledgements etc.) %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{textblock}{13.7}[1.,1](15.8,15.9)
+    \begin{minipage}[b][4.4cm][c]{0.8\textwidth}\flushright
+    \textcolor{white}{{\Large  $\rightarrow$ Other Logos, Conference names etc \ldots}}
+  \end{minipage}
+  \begin{minipage}[b][4.4cm][c]{0.2\textwidth}\flushright
+    \noindent\includegraphics[height=4.3cm,clip]{CCby}
+  \end{minipage}
+\end{textblock}
+\end{document}
+	      
+
